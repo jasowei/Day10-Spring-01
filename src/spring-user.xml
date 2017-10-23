@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--配置dao层
+            class : 指向具体实现类
+    -->
+    <bean id="userDao"
+          class="com.lanou.dao.impl.UserDaoImpl"/>
+
+    <!--配置service层
+            class : 指向具体实现类
+    -->
+    <bean id="userService"
+          class="com.lanou.service.impl.UserServiceImpl">
+        <!--通过输入注入给引入的dao层对象赋值-->
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <!--配置action层
+            对应Action层的对象,需要指明scope为prototype, 即每次调用都重新创建, spring容器只负责创建对象
+            不负责管理该对象的生命周期
+    -->
+    <bean id="userAction"
+          class="com.lanou.action.UserAction"
+          scope="prototype">
+        <!--根据属性配置给service层对象赋值-->
+        <property name="service" ref="userService"/>
+    </bean>
+
+
+</beans>
